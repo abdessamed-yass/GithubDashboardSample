@@ -41,7 +41,7 @@ class SearchUser extends Component {
     if (this.state.timeOut) {
       clearTimeout(this.state.timeOut);
     }
-    if(text){
+    if (text) {
       this.state.timeOut = setTimeout(() => {
         searchService.searchUser(text, (p) => this.setState(p), openOverlay)
       }, 1500);
@@ -55,51 +55,54 @@ class SearchUser extends Component {
     Keyboard.dismiss()
   }
 
-  componentDidMount() {
 
-  }
+
   handleClickOk = () => {
-    this.props.navigation.navigate("Repositories", { myUser: this.state.selectedItem })
+    if(this.state.Keyword){
+      this.setState({ userFound: false })
+      this.setState({ Keyword: '' })
+      this.props.navigation.navigate("Repositories", { myUser: this.state.selectedItem })
+    }
   }
   render() {
     const { navigation } = this.props;
     return (
       <View style={styles.container} >
-    
-                  <View style={styles.autocompleteContainer}>
-            <View style={styles.searchContainer}>
-              <TextInput
-                placeholder="Username"
-                returnKeyType="search"
-                style={styles.searchBox}
-                placeholderTextColor="#c1c0c0"
-                onChangeText={(text) => this.startSearch(text)}
-                value={this.state.Keyword}
-              />
-              {
-                this.state.userFound ?
-                  <Button style={styles.btnStyleEnabled} press={() => this.handleClickOk()} text='SEARCH' />
-                  :
-                  <Button disabled={true} style={styles.btnStyleDisbaled} press={() => this.handleClickOk()} text='SEARCH' />
-              }
-            </View>
-            <FlatList
-              keyboardShouldPersistTaps={'handled'}
-              data={this.state.searchResults}
-              renderItem={({ item, index }) => {
-                return (
-                  <TouchableOpacity
-                    style={styles.resultItem}
-                    onPress={() =>
-                      this.selectItem(item)
-                    }>
-                    <Text style={styles.itemStyle}>{item.login}</Text>
-                  </TouchableOpacity>
-                );
-              }}
-              keyExtractor={(item) => item.id}
-              style={styles.searchResultsContainer}
+
+        <View style={styles.autocompleteContainer}>
+          <View style={styles.searchContainer}>
+            <TextInput
+              placeholder="Username"
+              returnKeyType="search"
+              style={styles.searchBox}
+              placeholderTextColor="#c1c0c0"
+              onChangeText={(text) => this.startSearch(text)}
+              value={this.state.Keyword}
             />
+            {
+              this.state.userFound ?
+                <Button style={styles.btnStyleEnabled} press={() => this.handleClickOk()} text='SEARCH' />
+                :
+                <Button disabled={true} style={styles.btnStyleDisbaled} press={() => this.handleClickOk()} text='SEARCH' />
+            }
+          </View>
+          <FlatList
+            keyboardShouldPersistTaps={'handled'}
+            data={this.state.searchResults}
+            renderItem={({ item, index }) => {
+              return (
+                <TouchableOpacity
+                  style={styles.resultItem}
+                  onPress={() =>
+                    this.selectItem(item)
+                  }>
+                  <Text style={styles.itemStyle}>{item.login}</Text>
+                </TouchableOpacity>
+              );
+            }}
+            keyExtractor={(item) => item.id}
+            style={styles.searchResultsContainer}
+          />
 
         </View>
         <ErrorModal
@@ -120,18 +123,18 @@ class SearchUser extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop:10,
-    justifyContent:'center',
+    paddingTop: 10,
+    justifyContent: 'center',
     backgroundColor: "#fff",
     flex: 1,
   },
   containerBody: {
-    justifyContent:'center',
+    justifyContent: 'center',
     backgroundColor: "#000",
-    justifyContent:"center",
-    alignContent:"center",
-    alignContent:"center",
-    flex:1
+    justifyContent: "center",
+    alignContent: "center",
+    alignContent: "center",
+    flex: 1
   },
   header: {
     height: Pixel * 38,

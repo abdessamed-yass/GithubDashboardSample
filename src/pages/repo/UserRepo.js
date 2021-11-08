@@ -36,8 +36,7 @@ export default class UserRepo extends Component {
     async componentDidMount() {
         //get user login
         const user = this.props.route.params.myUser.login
-        //check then call api
-        await this.loadData(this.state.page, user);
+         this.loadData(this.state.page, user);
     }
 
     footer = () => {
@@ -93,7 +92,7 @@ export default class UserRepo extends Component {
                 />
 
                 <EmptyModal
-                    title="Aucun dépot trouvé!"
+                    title="Aucun dépot trouvé !"
                     subTitle={this.state.error}
                     show={this.state.emptyModal}
                     toggle={() => { (this.setState({ emptyModal: false })), closeOverlay(), this.props.navigation.goBack() }}
